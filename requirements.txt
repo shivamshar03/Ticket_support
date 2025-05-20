@@ -11,3 +11,4 @@ sentence-transformers
 langchain-groq
 faiss-cpu
 langchain-huggingface
+hf-xet
