@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 import streamlit as st
 from backend.user_utils import *
 
+if 'flag' not in st.session_state:
+    st.session_state["flag"] = False
 if 'tickets' not in st.session_state:
     st.session_state['tickets'] =" "
 if 'department_value' not in st.session_state:
@@ -48,7 +50,7 @@ def main():
 
         if button:
             #Get Response
-            
+            st.session_state["flag"] = True
 
             embeddings = create_embeddings()
             query_result = embeddings.embed_query(user_input)

@@ -45,24 +45,26 @@ if "df" not in st.session_state:
 # in a form, the app will only rerun once the submit button is pressed.
 # Make a dataframe for the new ticket and append it to the dataframe in session
 # state.
-recent_ticket_number = int(max(st.session_state.df.ID).split("-")[1])
-today = datetime.datetime.now().strftime("%m-%d-%Y")
-df_new = pd.DataFrame(
-    [
-        {
-            "ID": f"TICKET-{recent_ticket_number+1}",
-            "Issue": st.session_state['tickets'],
-            "Status": "Open",
-            "Department": st.session_state['department_value'],
-            "Date Submitted": today,
-        }
-    ]
-)
+if st.session_state["flag"]:
+    recent_ticket_number = int(max(st.session_state.df.ID).split("-")[1])
+    today = datetime.datetime.now().strftime("%m-%d-%Y")
+    df_new = pd.DataFrame(
+        [
+            {
+                "ID": f"TICKET-{recent_ticket_number+1}",
+                "Issue": st.session_state['tickets'],
+                "Status": "Open",
+                "Department": st.session_state['department_value'],
+                "Date Submitted": today,
+            }
+        ]
+    )
 
-# Show a little success message.
-st.write("Ticket submitted! Here are the ticket details:")
-st.dataframe(df_new, use_container_width=True, hide_index=True)
-st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
+    # Show a little success message.
+    st.write("Ticket submitted! Here are the ticket details:")
+    st.dataframe(df_new, use_container_width=True, hide_index=True)
+    st.session_state.df = pd.concat([df_new, st.session_state.df], axis=0)
+    st.session_state["flag"] = False
 
 # Show section to view and edit existing tickets in a table.
 st.header("Existing tickets")
@@ -90,7 +92,7 @@ edited_df = st.data_editor(
         "Department": st.column_config.SelectboxColumn(
             "Department",
             help="Department",
-            options=["HR", "IT", "Transport"],
+            options=["HR", "IT", "Transportation"],
             required=True,
         ),
     },
