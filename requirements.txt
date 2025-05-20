@@ -10,4 +10,3 @@ scikit-learn
 sentence-transformers
 langchain-groq
 faiss-cpu
-faiss-gpu
